@@ -1,3 +1,4 @@
+```java
 package com.example.expensetracker.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -8,16 +9,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.expensetracker.security.JwtAuthInterceptor;
 
-/** Central place for CORS and for deciding which URLs require a JWT. */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    private final JwtAuthInterceptor jwtAuthInterceptor;
-    private final String[] allowedOrigins;
 
-    public WebConfig(JwtAuthInterceptor jwtAuthInterceptor,
-                     @Value("${app.cors.allowed-origins:http://localhost:3000}") String[] allowedOrigins) {
+    private final JwtAuthInterceptor jwtAuthInterceptor;
+
+    @Value("${app.cors.allowed-origins:http://localhost:3000}")
+    private String[] allowedOrigins;
+
+    public WebConfig(JwtAuthInterceptor jwtAuthInterceptor) {
         this.jwtAuthInterceptor = jwtAuthInterceptor;
-        this.allowedOrigins = allowedOrigins;
     }
 
     @Override
@@ -32,7 +33,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(allowedOrigins)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("Authorization", "Content-Type", "Accept")
-                .maxAge(3600); // browsers may cache the preflight answer for an hour
+                .allowedHeaders("*")
+                .maxAge(3600);
     }
 }
+```
