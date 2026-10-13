@@ -1,4 +1,4 @@
-```java
+
 package com.example.expensetracker.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -37,4 +37,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 }
-```
+
